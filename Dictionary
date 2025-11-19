@@ -1,0 +1,22 @@
+student_grades = {
+    "Alice": 85,
+    "Lei": 92,
+    "Charlie": 78
+}
+
+student_grades["David"] = 88
+student_grades["Alice"] = 90
+
+print("Lei's grade:", student_grades["Lei"])
+
+print("\nAll student grades:")
+for student, grade in student_grades.items():
+    print(f"{student}: {grade}")
+
+if "Eve" in student_grades:
+    print("Eve's grade:", student_grades["Eve"])
+else:
+    print("Eve is not in the dictionary.")
+
+del student_grades["Charlie"]
+print("\nAfter removing Charlie:", student_grades)
