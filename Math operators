@@ -1,0 +1,23 @@
+num1 = float(input("Enter first number: "))
+num2 = float(input("Enter second number: "))
+
+add = num1 + num2
+print("Addition:", add)
+
+sub = num1 - num2
+print("Subtraction:", sub)
+
+mul = num1 * num2
+print("Multiplication:", mul)
+
+if num2 != 0:
+    div = num1 / num2
+    print("Division:", div)
+    mod = num1 % num2
+    print("Modulus:", mod)
+else:
+    print("Division: Error! Cannot divide by zero.")
+    print("Modulus: Error! Cannot divide by zero.")
+
+exp = num1 ** num2
+print("Exponentiation:", exp)
