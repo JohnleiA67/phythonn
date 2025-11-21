@@ -1,0 +1,111 @@
+class BookNode:
+    def __init__(self, title):
+        self.title = title
+        self.next = None
+
+class BookLinkedList:
+    def __init__(self):
+        self.head = None
+
+    def add_book(self, title):
+        new_node = BookNode(title)
+        if not self.head:
+            self.head = new_node
+            return
+        current = self.head
+        while current.next:
+            current = current.next
+        current.next = new_node
+
+    def display(self):
+        current = self.head
+        while current:
+            print(current.title, end=" -> ")
+            current = current.next
+        print("None")
+
+book_list = BookLinkedList()
+book_list.add_book("1984")
+book_list.add_book("A Brief History of Time")
+book_list.add_book("Sapiens")
+print("Linked List (books):")
+book_list.display()
+
+# ------------------ Stack ------------------
+class BorrowStack:
+    def __init__(self):
+        self.stack = []
+
+    def borrow(self, book):
+        self.stack.append(book)
+        print(f"Borrowed: {book}")
+
+    def return_book(self):
+        if self.stack:
+            book = self.stack.pop()
+            print(f"Returned: {book}")
+        else:
+            print("No books to return.")
+
+borrow_stack = BorrowStack()
+borrow_stack.borrow("1984")
+borrow_stack.borrow("Sapiens")
+borrow_stack.return_book()
+print("Stack state:", borrow_stack.stack)
+
+# ------------------ Queue ------------------
+from collections import deque
+
+class ReservationQueue:
+    def __init__(self):
+        self.queue = deque()
+
+    def reserve(self, user):
+        self.queue.append(user)
+        print(f"{user} reserved a book.")
+
+    def serve_next(self):
+        if self.queue:
+            user = self.queue.popleft()
+            print(f"Serving reservation for: {user}")
+        else:
+            print("No reservations.")
+
+reservation_queue = ReservationQueue()
+reservation_queue.reserve("Alice")
+reservation_queue.reserve("Bob")
+reservation_queue.serve_next()
+print("Queue state:", reservation_queue.queue)
+
+# ------------------ Tree ------------------
+class LibrarySection:
+    def __init__(self, name):
+        self.name = name
+        self.subsections = []
+
+    def add_subsection(self, subsection):
+        self.subsections.append(subsection)
+
+    def display(self, level=0):
+        print(" " * level * 2 + self.name)
+        for subsection in self.subsections:
+            subsection.display(level + 1)
+
+# Build a library tree
+root = LibrarySection("Library")
+fiction = LibrarySection("Fiction")
+science = LibrarySection("Science")
+history = LibrarySection("History")
+
+root.add_subsection(fiction)
+root.add_subsection(science)
+root.add_subsection(history)
+
+fiction.add_subsection(LibrarySection("Fantasy"))
+fiction.add_subsection(LibrarySection("Mystery"))
+science.add_subsection(LibrarySection("Physics"))
+science.add_subsection(LibrarySection("Biology"))
+
+print("Tree (Library Sections):")
+root.display()
+
