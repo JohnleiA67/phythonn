@@ -1,0 +1,124 @@
+from abc import ABC, abstractmethod
+
+# 1. Class & Object + Encapsulation
+class Account:
+    def __init__(self, owner, balance=0):
+        self.__owner = owner     # private attribute
+        self.__balance = balance # private attribute
+
+    def deposit(self, amount):
+        self.__balance += amount
+        print(f"{amount} deposited. New balance: {self.__balance}")
+
+    def withdraw(self, amount):
+        if amount <= self.__balance:
+            self.__balance -= amount
+            print(f"{amount} withdrawn. New balance: {self.__balance}")
+        else:
+            print("Insufficient funds!")
+
+    def get_balance(self):
+        return self.__balance
+
+    def get_owner(self):
+        return self.__owner
+
+# 2. Inheritance
+class SavingsAccount(Account):
+    def __init__(self, owner, balance=0, interest_rate=0.05):
+        super().__init__(owner, balance)
+        self.interest_rate = interest_rate
+
+    # 3. Method Overriding (Polymorphism)
+    def withdraw(self, amount):
+        print("Savings account withdrawal:")
+        super().withdraw(amount)
+
+    def add_interest(self):
+        interest = self.get_balance() * self.interest_rate
+        self.deposit(interest)
+        print(f"Interest of {interest} added.")
+
+class CheckingAccount(Account):
+    def __init__(self, owner, balance=0, overdraft_limit=100):
+        super().__init__(owner, balance)
+        self.overdraft_limit = overdraft_limit
+
+    def withdraw(self, amount):
+        if amount <= self.get_balance() + self.overdraft_limit:
+            new_balance = self.get_balance() - amount
+            print(f"{amount} withdrawn. Balance may be negative: {new_balance}")
+        else:
+            print("Overdraft limit exceeded!")
+
+# 4. Abstraction
+class Loan(ABC):
+    @abstractmethod
+    def calculate_interest(self):
+        pass
+
+class HomeLoan(Loan):
+    def calculate_interest(self):
+        print("Home loan interest calculated at 6%.")
+
+class CarLoan(Loan):
+    def calculate_interest(self):
+        print("Car loan interest calculated at 8%.")
+
+# 5. Method Overloading (Pythonic way)
+class Transaction:
+    def process(self, amount, description="General"):
+        print(f"Processed transaction of {amount} for {description}")
+
+# 6. Static & Class Methods
+class Bank:
+    bank_name = "Global Bank"
+
+    @staticmethod
+    def welcome():
+        print("Welcome to Global Bank!")
+
+    @classmethod
+    def get_bank_name(cls):
+        return cls.bank_name
+
+# 7. Destructor
+class TempSession:
+    def __init__(self):
+        print("Session started.")
+    def __del__(self):
+        print("Session closed.")
+
+# ------------------ DEMO ------------------
+if __name__ == "__main__":
+    # Class & Object
+    acc = Account("Alice", 500)
+    acc.deposit(200)
+    acc.withdraw(100)
+
+    # Inheritance + Overriding
+    sav = SavingsAccount("Bob", 1000)
+    sav.add_interest()
+    sav.withdraw(200)
+
+    chk = CheckingAccount("Charlie", 300)
+    chk.withdraw(350)
+
+    # Abstraction
+    home_loan = HomeLoan()
+    car_loan = CarLoan()
+    home_loan.calculate_interest()
+    car_loan.calculate_interest()
+
+    # Method Overloading
+    txn = Transaction()
+    txn.process(500)
+    txn.process(1000, "Car Purchase")
+
+    # Static & Class Methods
+    Bank.welcome()
+    print("Bank name:", Bank.get_bank_name())
+
+    # Destructor
+    session = TempSession()
+    del session
